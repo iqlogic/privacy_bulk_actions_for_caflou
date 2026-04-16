@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Privacy Bulk Actions for Caflou",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Hromadné akce pro nastavení soukromí v obchodním případu, úkolu a události v Caflou",
   "content_scripts": [
     {

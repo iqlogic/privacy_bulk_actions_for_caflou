@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         Caflou Privacy Bulk Actions v0.2.4
+// @name         Privacy Bulk Actions for Caflou v0.2.5
 // @namespace    https://edsystem.cz/
-// @version      0.2.4
-// @description  Hromadné akce pro soukromí obchodního případu v Caflou
-// @author       Milan Kutaj + ChatGPT
+// @version      0.2.5
+// @description  Hromadné akce pro nastavení soukromí v obchodním případu v Caflou
+// @author       Milan Kutaj
 // @match        *://*.caflou.cz/*
 // @match        *://*.caflou.com/*
 // @run-at       document-idle
@@ -89,19 +89,23 @@
   }
 
   function getPrivacyContainer() {
-    return document.querySelector('#privacy-settings');
+    // Hledá ID s pomlčkou i podtržítkem
+    return document.querySelector('#privacy-settings, #privacy_settings');
   }
 
   function getHiddenPrivacyInput() {
-    return document.querySelector('input[name="project[privacy]"]');
+    // Selektor [name$="..."] znamená "končí na"
+    return document.querySelector('input[name$="[privacy]"]');
   }
 
   function getSearchInput() {
-    return document.querySelector('#privacy-settings input[name="search"]');
+    const root = getPrivacyContainer();
+    return root?.querySelector('input[name="search"]');
   }
 
   function getPageSelect() {
-    return document.querySelector('#privacy-settings select[name="page"]');
+    const root = getPrivacyContainer();
+    return root?.querySelector('select[name="page"]');
   }
 
   function getPaginationRoot() {
@@ -114,7 +118,7 @@
   function getRows() {
     const root = getPrivacyContainer();
     if (!root) return [];
-    return Array.from(root.querySelectorAll('.privacy-settings > .user'));
+    return Array.from(root.querySelectorAll('.user')).filter(el => el.id.startsWith('user_'));
   }
 
   function getRowSignature() {
@@ -134,7 +138,8 @@
   function getRootCheckbox(row, right) {
     const userId = getUserIdFromRow(row);
     if (!userId) return null;
-    return row.querySelector(`input[name="${right}_${userId}"]`);
+    // Najde input, jehož name začíná např. "read_61201"
+    return row.querySelector(`input[name^="${right}_${userId}"]`);
   }
 
   function getRootStateFromDom(row) {

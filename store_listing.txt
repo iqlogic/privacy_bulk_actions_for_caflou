@@ -1,0 +1,50 @@
+=== ENGLISH (EN) ===
+
+TITLE (max 75 characters):
+Privacy Bulk Actions for Caflou
+
+SHORT DESCRIPTION (max 132 characters):
+Easily manage privacy rights in Caflou. Grant, clear, or restore access for all users on all pages with a single click.
+
+LONG DESCRIPTION:
+Privacy Bulk Actions for Caflou is a huge time-saver for anyone managing business cases and user access rights within the Caflou system.
+
+Instead of manually clicking through hundreds of checkboxes across multiple pagination pages to set "Read," "Write," and "Health" permissions for every user, this extension adds three convenient bulk action buttons directly into the Caflou user interface:
+
+1. Clear All (Vše odškrtnout): Instantly removes all privacy rights for every user across all pages.
+2. Restore All (Vše obnovit): Reverts all privacy settings to their default, role-based configuration for every user.
+3. Grant All (Všem povolit vše): Automatically grants "Read," "Write," and "Health" permissions to all users on all pages.
+
+How it works:
+When you open the "Privacy" tab on a business case, a new toolbar will appear above the user list. Simply click your desired action, and the extension will automatically navigate through all pagination pages, finding and adjusting the permissions exactly as requested.
+
+Privacy First:
+This extension runs entirely locally in your browser. It does not collect, store, or transmit any of your data, passwords, or personal information.
+
+Note: This extension is not officially affiliated with or endorsed by Caflou.
+
+
+=== ČEŠTINA (CZ) ===
+
+TITLE (max 75 znaků):
+Hromadné akce soukromí pro Caflou
+
+SHORT DESCRIPTION (max 132 znaků):
+Spravujte práva v Caflou snadno. Přidělte, odeberte nebo obnovte přístup pro všechny uživatele na všech stránkách jedním kliknutím.
+
+LONG DESCRIPTION:
+Hromadné akce soukromí pro Caflou je obrovský pomocník a šetřič času pro každého, kdo spravuje obchodní případy a přístupová práva uživatelů v systému Caflou.
+
+Místo toho, abyste museli ručně proklikávat stovky zaškrtávacích políček na mnoha stránkách, abyste nastavili práva "Číst", "Zapisovat" a "Zdraví" pro každého uživatele, toto rozšíření přidává do uživatelského rozhraní Caflou tři pohodlná tlačítka pro hromadné akce:
+
+1. Vše odškrtnout: Okamžitě odebere všechna práva pro všechny uživatele napříč všemi stránkami.
+2. Vše obnovit: Vrátí veškerá nastavení soukromí do jejich výchozí konfigurace založené na uživatelských rolích.
+3. Všem povolit vše: Automaticky přidělí práva "Číst", "Zapisovat" a "Zdraví" všem uživatelům na všech stránkách.
+
+Jak to funguje:
+Když v obchodním případu otevřete záložku "Soukromí", objeví se nad seznamem uživatelů nový panel. Jednoduše klikněte na požadovanou akci a rozšíření automaticky projde všechny stránky se seznamem uživatelů a upraví oprávnění přesně podle vašeho zadání.
+
+Soukromí na prvním místě:
+Toto rozšíření běží výhradně lokálně ve vašem prohlížeči. Neshromažďuje, neukládá ani neodesílá žádná vaše data, hesla ani osobní údaje.
+
+Poznámka: Toto rozšíření není oficiálním produktem společnosti Caflou.

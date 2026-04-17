@@ -1,0 +1,26 @@
+name: Build and Release Chrome Extension
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: Build Extension ZIP
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create ZIP file
+        run: |
+          # Create a zip containing only the essential files for the Chrome Extension
+          zip -r extension.zip manifest.json content.js icons/
+
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: extension.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

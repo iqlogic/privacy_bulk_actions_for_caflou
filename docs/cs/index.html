@@ -1,58 +1,275 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hromadné akce soukromí pro Caflou</title>
+    <title>Privacy Bulk Actions for Caflou</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
-        header { border-bottom: 1px solid #eaeaea; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
-        .lang-switch a { margin-right: 10px; text-decoration: none; color: #0366d6; }
-        h1 { color: #24292e; }
-        .feature { background: #f6f8fa; padding: 15px; border-radius: 6px; margin-bottom: 20px; }
-        a.button { display: inline-block; padding: 10px 20px; background-color: #2ea44f; color: white; text-decoration: none; border-radius: 6px; font-weight: 500; }
-        a.button:hover { background-color: #2c974b; }
-        footer { margin-top: 50px; border-top: 1px solid #eaeaea; padding-top: 20px; font-size: 0.9em; color: #6a737d; text-align: center; }
+        body { font-family: 'Inter', sans-serif; }
+        .feature-card:hover { transform: translateY(-5px); transition: all 0.3s ease; }
+        [lang-content] { display: none; }
+        html[lang="en"] [lang-content="en"] { display: block; }
+        html[lang="cs"] [lang-content="cs"] { display: block; }
+        .modal { transition: opacity 0.25s ease; }
+        body.modal-active { overflow: hidden; }
     </style>
 </head>
-<body>
-    <header>
-        <div>
-            <h1>Hromadné akce soukromí pro Caflou</h1>
-            <p>Rozšíření pro Chrome pro hromadnou správu práv v systému Caflou.</p>
-        </div>
-        <div class="lang-switch">
-            <a href="../index.html">EN</a> | <strong>CZ</strong>
+<body class="bg-slate-50 text-slate-800 antialiased">
+
+    <!-- Header / Navigation -->
+    <header class="sticky top-0 z-40 w-full backdrop-blur flex-none bg-white/80 border-b border-slate-200">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2">
+                    <div class="bg-indigo-600 p-1.5 rounded-lg">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 00-2 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    </div>
+                    <span class="font-bold text-slate-900 hidden sm:block">Privacy Bulk Actions</span>
+                </div>
+                
+                <div class="flex items-center gap-6">
+                    <nav class="flex gap-4 text-sm font-medium">
+                        <a href="https://github.com/iqlogic/privacy_bulk_actions_for_caflou" target="_blank" class="text-slate-500 hover:text-indigo-600 flex items-center gap-1">
+                            GitHub
+                        </a>
+                    </nav>
+                    <div class="flex bg-slate-200 p-1 rounded-md text-xs font-bold">
+                        <button onclick="setLanguage('en')" id="btn-en" class="px-3 py-1.5 rounded transition-all">EN</button>
+                        <button onclick="setLanguage('cs')" id="btn-cs" class="px-3 py-1.5 rounded transition-all">CZ</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
-    <main>
-        <section>
-            <h2>O rozšíření</h2>
-            <p>Toto rozšíření přidává užitečná tlačítka pro hromadné akce do záložky "Soukromí" uvnitř obchodních případů v systému Caflou. Umožňuje vám rychle zaškrtnout, odškrtnout nebo obnovit nastavení soukromí pro všechny uživatele najednou, čímž šetří váš drahocenný čas.</p>
-
-            <div class="feature">
-                <h3>Hlavní funkce:</h3>
-                <ul>
-                    <li><strong>Vše odškrtnout:</strong> Okamžitě odebere všechna práva napříč všemi stránkami pro všechny uživatele.</li>
-                    <li><strong>Vše obnovit:</strong> Vrátí práva do výchozího stavu podle nastavení uživatelských rolí.</li>
-                    <li><strong>Všem povolit vše:</strong> Rychle přidělí práva Číst, Zapisovat a Zdraví všem uživatelům.</li>
-                </ul>
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+        
+        <!-- Hero Section -->
+        <div class="text-center mb-16">
+            <h1 class="text-4xl sm:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight">
+                <span lang-content="en">Manage Caflou Rights <span class="text-indigo-600">Instantly</span></span>
+                <span lang-content="cs">Spravujte práva v Caflou <span class="text-indigo-600">bleskově</span></span>
+            </h1>
+            <p class="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed">
+                <span lang-content="en">A powerful browser extension for bulk management of privacy rights in Caflou CRM. Stop clicking hundreds of checkboxes manually.</span>
+                <span lang-content="cs">Výkonné rozšíření pro hromadnou správu práv v systému Caflou. Přestaňte ručně proklikávat stovky zaškrtávacích políček.</span>
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#" class="inline-flex items-center justify-center px-8 py-4 font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-lg shadow-indigo-200 transition-all duration-200 group">
+                    <span lang-content="en">Get it on Chrome Web Store</span>
+                    <span lang-content="cs">Stáhnout z Chrome Web Store</span>
+                    <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </a>
             </div>
+        </div>
 
-            <!-- Link to Web Store will be updated once published -->
-            <p><a href="#" class="button">Stáhnout v Chrome Web Store</a></p>
+        <!-- Features Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+            <!-- Feature 1 -->
+            <div class="feature-card bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="w-12 h-12 bg-red-100 text-red-600 rounded-xl flex items-center justify-center mb-6">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3">
+                    <span lang-content="en">Clear All</span>
+                    <span lang-content="cs">Vše odškrtnout</span>
+                </h3>
+                <p class="text-slate-600 leading-relaxed text-sm">
+                    <span lang-content="en">Instantly remove all rights across all pages for all users. Perfect for starting from scratch.</span>
+                    <span lang-content="cs">Okamžitě odebere všechna práva pro všechny uživatele na všech stránkách. Ideální pro čistý začátek.</span>
+                </p>
+            </div>
+            <!-- Feature 2 -->
+            <div class="feature-card bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-6">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3">
+                    <span lang-content="en">Restore All</span>
+                    <span lang-content="cs">Vše obnovit</span>
+                </h3>
+                <p class="text-slate-600 leading-relaxed text-sm">
+                    <span lang-content="en">Revert the rights to default role-based settings for all users with a single click.</span>
+                    <span lang-content="cs">Vrátí veškerá nastavení soukromí do jejich výchozí konfigurace založené na uživatelských rolích.</span>
+                </p>
+            </div>
+            <!-- Feature 3 -->
+            <div class="feature-card bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center mb-6">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3">
+                    <span lang-content="en">Grant All</span>
+                    <span lang-content="cs">Všem povolit vše</span>
+                </h3>
+                <p class="text-slate-600 leading-relaxed text-sm">
+                    <span lang-content="en">Quickly assign Read, Write, and Health rights to every user in the project list.</span>
+                    <span lang-content="cs">Automaticky přidělí práva "Číst", "Psát" a "Zdraví" všem uživatelům na všech stránkách.</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- How it works -->
+        <section class="bg-indigo-900 rounded-[2rem] p-8 sm:p-16 text-white overflow-hidden relative">
+            <div class="relative z-10">
+                <h2 class="text-3xl font-bold mb-10">
+                    <span lang-content="en">How it works</span>
+                    <span lang-content="cs">Jak to funguje</span>
+                </h2>
+                <div class="space-y-8 max-w-xl">
+                    <div class="flex gap-4">
+                        <div class="flex-none w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center font-bold">1</div>
+                        <div>
+                            <span lang-content="en">Open the <strong>"Privacy"</strong> tab in any Business Case, Task, or Event in Caflou.</span>
+                            <span lang-content="cs">Otevřete záložku <strong>"Soukromí"</strong> u jakéhokoliv obchodního případu, úkolu nebo události.</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="flex-none w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center font-bold">2</div>
+                        <div>
+                            <span lang-content="en">A new panel with three bulk action buttons will appear above the user list.</span>
+                            <span lang-content="cs">Nad seznamem uživatelů se objeví nový panel se třemi tlačítky hromadných akcí.</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="flex-none w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center font-bold">3</div>
+                        <div>
+                            <span lang-content="en">Click an action. The extension will automatically process all pages and users.</span>
+                            <span lang-content="cs">Klikněte na akci. Rozšíření automaticky projde všechny stránky a upraví oprávnění.</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="flex-none w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center font-bold">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <div>
+                            <span lang-content="en"><strong>Important:</strong> Click the native <strong>"Save"</strong> button in Caflou to commit changes.</span>
+                            <span lang-content="cs"><strong>Důležité:</strong> Pro uložení změn na server musíte kliknout na modré tlačítko <strong>"Uložit"</strong> v Caflou.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Decorative circle -->
+            <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-indigo-800 rounded-full blur-3xl opacity-50"></div>
         </section>
 
-        <section>
-            <h2>Právní informace</h2>
-            <p>Respektujeme vaše soukromí. Toto rozšíření běží lokálně ve vašem prohlížeči a neshromažďuje ani neodesílá žádná osobní data.</p>
-            <p><a href="privacy-policy.html">Přečíst celé Zásady ochrany osobních údajů</a></p>
+        <!-- Privacy & Security Section -->
+        <section class="mt-20 py-12 border-t border-slate-200">
+            <div class="flex flex-col md:flex-row gap-12 items-center">
+                <div class="flex-1">
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">
+                        <span lang-content="en">Privacy First</span>
+                        <span lang-content="cs">Soukromí na prvním místě</span>
+                    </h2>
+                    <p class="text-slate-600 mb-6">
+                        <span lang-content="en">We respect your privacy. This extension runs locally in your browser and does not collect or transmit any data to external servers.</span>
+                        <span lang-content="cs">Respektujeme vaše soukromí. Rozšíření běží lokálně ve vašem prohlížeči. Neshromažďuje ani neodesílá žádná data na externí servery.</span>
+                    </p>
+                    <button onclick="toggleModal()" class="text-indigo-600 font-semibold hover:text-indigo-700 underline decoration-indigo-200 underline-offset-4">
+                        <span lang-content="en">Read full Privacy Policy &rarr;</span>
+                        <span lang-content="cs">Zobrazit celé zásady ochrany soukromí &rarr;</span>
+                    </button>
+                </div>
+                <div class="flex-none bg-indigo-50 p-6 rounded-2xl border border-indigo-100 flex gap-4 max-w-sm">
+                    <svg class="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    <p class="text-sm text-indigo-900 italic font-medium">
+                        <span lang-content="en">"I built this for my own productivity and kept it strictly client-side to ensure maximum security for our company data."</span>
+                        <span lang-content="cs">"Tento nástroj jsem vytvořil pro vlastní efektivitu a ponechal jsem jej striktně na straně klienta, abych zajistil maximální bezpečnost firemních dat."</span>
+                    </p>
+                </div>
+            </div>
         </section>
     </main>
 
-    <footer>
-        &copy; 2026. Toto rozšíření není produktem společnosti Caflou.
+    <footer class="bg-slate-900 text-slate-400 py-12 text-center text-sm">
+        <div class="max-w-5xl mx-auto px-4">
+            <p class="mb-4">&copy; 2026 Milan Kutaj. Not officially affiliated with Caflou s.r.o.</p>
+            <div class="flex justify-center gap-6">
+                <a href="https://github.com/iqlogic/privacy_bulk_actions_for_caflou" target="_blank" class="hover:text-white transition-colors">GitHub Repository</a>
+                <button onclick="toggleModal()" class="hover:text-white transition-colors">Privacy Policy</button>
+            </div>
+        </div>
     </footer>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacy-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-slate-900 opacity-50" onclick="toggleModal()"></div>
+        
+        <div class="modal-container bg-white w-11/12 md:max-w-3xl mx-auto rounded-2xl shadow-2xl z-50 overflow-y-auto max-h-[90vh]">
+            
+            <div class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50" onclick="toggleModal()">
+                <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                    <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                </svg>
+            </div>
+
+            <div class="modal-content py-8 text-left px-8">
+                <!-- EN Policy -->
+                <div lang-content="en">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-6 border-b pb-4">Privacy Policy</h2>
+                    <div class="space-y-4 text-slate-600">
+                        <p><strong>Last Updated:</strong> April 2026</p>
+                        <h3 class="text-lg font-semibold text-slate-900">1. Data Collection</h3>
+                        <p>We do not collect, store, or transmit any personal data. The Extension operates entirely locally within your browser.</p>
+                        <h3 class="text-lg font-semibold text-slate-900">2. Usage</h3>
+                        <p>It interacts directly with the Caflou Document Object Model (DOM) to automate clicking actions on privacy checkboxes. No analytics or tracking data is sent to our servers.</p>
+                        <h3 class="text-lg font-semibold text-slate-900">3. Permissions</h3>
+                        <p>Host permissions for caflou.cz and caflou.com are used strictly to inject the automation script into the relevant settings pages.</p>
+                    </div>
+                </div>
+                <!-- CS Policy -->
+                <div lang-content="cs">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-6 border-b pb-4">Zásady ochrany soukromí</h2>
+                    <div class="space-y-4 text-slate-600">
+                        <p><strong>Poslední aktualizace:</strong> Duben 2026</p>
+                        <h3 class="text-lg font-semibold text-slate-900">1. Sběr dat</h3>
+                        <p>Neshromažďujeme, neukládáme ani neodesíláme žádné osobní údaje. Rozšíření funguje výhradně lokálně ve vašem prohlížeči.</p>
+                        <h3 class="text-lg font-semibold text-slate-900">2. Použití</h3>
+                        <p>Skript interaguje přímo s DOM rozhraním Caflou pro automatizaci klikání na checkboxy. Žádná analytika ani sledování nejsou odesílány na naše servery.</p>
+                        <h3 class="text-lg font-semibold text-slate-900">3. Oprávnění</h3>
+                        <p>Oprávnění pro hostitele caflou.cz a caflou.com jsou použita výhradně k vložení automatizačního skriptu do příslušných stránek nastavení.</p>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex justify-end">
+                    <button onclick="toggleModal()" class="px-6 py-2 bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold rounded-lg transition-colors">
+                        <span lang-content="en">Close</span>
+                        <span lang-content="cs">Zavřít</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setLanguage(lang) {
+            document.documentElement.setAttribute('lang', lang);
+            const btnEn = document.getElementById('btn-en');
+            const btnCs = document.getElementById('btn-cs');
+
+            if (lang === 'en') {
+                btnEn.classList.add('bg-white', 'text-indigo-600', 'shadow-sm');
+                btnCs.classList.remove('bg-white', 'text-indigo-600', 'shadow-sm');
+                btnCs.classList.add('text-slate-500');
+            } else {
+                btnCs.classList.add('bg-white', 'text-indigo-600', 'shadow-sm');
+                btnEn.classList.remove('bg-white', 'text-indigo-600', 'shadow-sm');
+                btnEn.classList.add('text-slate-500');
+            }
+        }
+
+        function toggleModal() {
+            const body = document.querySelector('body');
+            const modal = document.querySelector('#privacy-modal');
+            modal.classList.toggle('opacity-0');
+            modal.classList.toggle('pointer-events-none');
+            body.classList.toggle('modal-active');
+        }
+
+        // Initialize language
+        window.onload = () => setLanguage('en');
+    </script>
 </body>
 </html>

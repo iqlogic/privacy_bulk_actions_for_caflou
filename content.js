@@ -1,15 +1,3 @@
-// ==UserScript==
-// @name         Privacy Bulk Actions for Caflou v0.2.5
-// @namespace    https://edsystem.cz/
-// @version      0.2.5
-// @description  Hromadné akce pro nastavení soukromí v obchodním případu v Caflou
-// @author       Milan Kutaj
-// @match        *://*.caflou.cz/*
-// @match        *://*.caflou.com/*
-// @run-at       document-idle
-// @noframes
-// ==/UserScript==
-
 (function () {
   'use strict';
 
@@ -676,8 +664,9 @@
     const totalRowsOnPage = getRows().length;
 
     updateStatus(
-      `Stránka ${page}/${pageCount} · uživatel ${index + 1}/${totalRowsOnPage} · ${userName}`,
-      'info'
+      `<strong>Neopouštějte okno!</strong> Stránka ${page}/${pageCount} · uživatel ${index + 1}/${totalRowsOnPage} · ${userName}`,
+      'info',
+      { html: true }
     );
 
     if (!userId) {

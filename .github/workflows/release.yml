@@ -8,7 +8,6 @@ jobs:
   build:
     name: Build Extension ZIP
     runs-on: ubuntu-latest
-    # DŮLEŽITÉ: Povolení zápisu pro nahrání souboru k releasu
     permissions:
       contents: write
 
@@ -17,14 +16,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Create ZIP file
+        # Použijeme github.ref_name pro dynamický název souboru
         run: |
-          # Vytvoří zip pouze s vybranými soubory
-          # -r zajistí, že se zabalí i obsah složky icons
-          zip -r extension.zip manifest.json content.js icons/
+          zip -r "privacy_bulk_actions_for_caflou-${{ github.ref_name }}.zip" manifest.json content.js icons/
 
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v2
         with:
-          files: extension.zip
+          # Musí se shodovat s názvem vytvořeným v předchozím kroku
+          files: "privacy_bulk_actions_for_caflou-${{ github.ref_name }}.zip"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
